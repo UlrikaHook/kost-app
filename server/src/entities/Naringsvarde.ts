@@ -8,7 +8,7 @@ export class Naringsvarde extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: "double"})
+    @Column({type: "double", scale: 4})
     varde: number;
 
     @Column({type: "int", default: 100})

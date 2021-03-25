@@ -1,5 +1,4 @@
-import {BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
-import {Livsmedel} from "./Livsmedel";
+import {BaseEntity, Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
 import {Naringsvarde} from "./Naringsvarde";
 
 @Entity()
@@ -12,7 +11,34 @@ export class Naringsamne extends BaseEntity {
     enhet: string;
 
     @Column({nullable: true, type: "double"})
-    rek: number;
+    K18_30: number;
+
+    @Column({nullable: true, type: "double"})
+    K31_60: number;
+
+    @Column({nullable: true, type: "double"})
+    K61_74: number;
+
+    @Column({nullable: true, type: "double"})
+    K75: number;
+
+    @Column({nullable: true, type: "double"})
+    gravida: number;
+
+    @Column({nullable: true, type: "double"})
+    ammande: number;
+
+    @Column({nullable: true, type: "double"})
+    M18_30: number;
+
+    @Column({nullable: true, type: "double"})
+    M31_60: number;
+
+    @Column({nullable: true, type: "double"})
+    M61_74: number;
+
+    @Column({nullable: true, type: "double"})
+    M75: number;
 
     @OneToMany(() => Naringsvarde, naringsvarde => naringsvarde.naringsamne, {cascade: ["remove"]})
     naringsvarden: Naringsvarde[];
