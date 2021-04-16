@@ -11,17 +11,16 @@ export const Foods = observer(() => {
     const { foodStore } = useStores();
     const [ showSearch, setShowSearch ] = useState(false);
 
-    const addFoodsField = (chosenName) => {
-        foodStore.addFoodItem({name: chosenName, amount: "", id: ""})
+    const hideSearchBox = () => {
         setShowSearch(false);
-    }
-
-    const deleteFoodItem = (e) => {
-        foodStore.removeFoodItem(e.target.id);
     }
 
     const showSearchBox = (e) => {
         setShowSearch(true);
+    }
+
+    const deleteFoodItem = (e) => {
+        foodStore.removeFoodItem(e.target.id);
     }
 
     const changeAmount = (e) => {
@@ -46,7 +45,7 @@ export const Foods = observer(() => {
     const searchBox = () => {
         return(
             showSearch
-                ? <SearchBox addFoodsFiels={addFoodsField}/>
+                ? <SearchBox hideSearchBox={hideSearchBox}/>
                 : null
         )
     }

@@ -1,12 +1,12 @@
 import {FoodStore} from "../stores/FoodStore";
 import React from 'react';
-import {PersonInfoStore} from "../stores/PersonInfoStore";
+import {SearchStore} from "../stores/SearchStore";
 
 
 const foodStore = new FoodStore();
-const personInfoStore = new PersonInfoStore();
+const searchStore = new SearchStore();
 
 export const stores = React.createContext({
     foodStore,
-    personInfoStore
+    searchStore
 });

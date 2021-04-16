@@ -4,14 +4,14 @@ import {observer} from "mobx-react";
 
 export const PersonalInfo = observer(() => {
 
-    const { personInfoStore } = useStores();
+    const { foodStore } = useStores();
 
     const changeGroup = (event) => {
-        personInfoStore.changeGroup(event.target.value);
+        foodStore.changeGroup(event.target.value);
     }
 
     const changeAge = (event) => {
-        personInfoStore.changeAge(event.target.value);
+        foodStore.changeAge(event.target.value);
     }
 
     return(
