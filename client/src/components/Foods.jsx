@@ -3,25 +3,21 @@ import AddIcon from "@material-ui/icons/Add";
 import React, { useState, useEffect } from "react";
 import {FoodItem} from "./FoodItem";
 import {SearchBox} from "./SearchBox";
+import {observer} from "mobx-react";
+import {useStores} from "../hooks/useStores";
 
-export const Foods = () => {
+export const Foods = observer(() => {
 
-    //skapa dynamiskt formulär, där man kan öka och minska antalet fält.
-
-    const [ foods, setFoods ] = useState([]);
+    const { foodStore } = useStores();
     const [ showSearch, setShowSearch ] = useState(false);
 
-    useEffect(() => {
-        console.log(foods);
-    })
-
     const addFoodsField = (chosenName) => {
-        setFoods(foods => [...foods, {name: chosenName, amount: "", id: ""}])
+        foodStore.addFoodItem({name: chosenName, amount: "", id: ""})
         setShowSearch(false);
     }
 
     const deleteFoodItem = (e) => {
-        setFoods(foods => foods.filter(food => e.target.id !== food.id));
+        foodStore.removeFoodItem(e.target.id);
     }
 
     const showSearchBox = (e) => {
@@ -29,17 +25,11 @@ export const Foods = () => {
     }
 
     const changeAmount = (e) => {
-        const newFoods = foods.map(food => {
-            if(e.target.id === food.id){
-                food.amount = e.target.value;
-            }
-            return food;
-        })
-        setFoods(newFoods);
+        foodStore.changeFoodItem(e.target.id, e.target.value);
     }
 
     const foodComponents = () => {
-        return foods.map((food, index) => {
+        return foodStore.foods.map((food, index) => {
             return(
                 <FoodItem
                     key={`${index}`}
@@ -71,4 +61,4 @@ export const Foods = () => {
                 {searchBox()}
             </fieldset>
         );
-}
+});

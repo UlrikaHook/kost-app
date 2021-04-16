@@ -1,7 +1,8 @@
 import React from 'react';
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import {observer} from "mobx-react";
 
-export const FoodItem = ({id, name, amount, deleteFoodItem, changeAmount}) => {
+export const FoodItem = observer(({id, name, amount, deleteFoodItem, changeAmount}) => {
     return(
         <div className="flex-row-between-center fill">
             <input type="text" disabled className="fill-fifty" defaultValue={name}/>
@@ -9,4 +10,4 @@ export const FoodItem = ({id, name, amount, deleteFoodItem, changeAmount}) => {
             <button className="delete-button" onClick={deleteFoodItem}><DeleteOutlineIcon className="icon"/></button>
         </div>
     )
-}
+});

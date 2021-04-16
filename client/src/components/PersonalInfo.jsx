@@ -1,27 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
+import {useStores} from "../hooks/useStores";
+import {observer} from "mobx-react";
 
-export const PersonalInfo = () => {
+export const PersonalInfo = observer(() => {
 
-    //states för att hantera ifyllda uppgifter
-    //bör ligga i parent? Endast metoder här som anropar ändra state i parent
-
-    const [ group, setGroup ] = useState("");
-    const [ age, setAge ] = useState("");
-
-    useEffect(() => {
-        console.log(group);
-    })
+    const { personInfoStore } = useStores();
 
     const changeGroup = (event) => {
-        if(event.target.name === "femaleOptions" && event.target.value === ""){
-            setGroup("female")
-        }
-        setGroup(event.target.value);
+        personInfoStore.changeGroup(event.target.value);
     }
 
     const changeAge = (event) => {
-
-        setAge(event.target.value);
+        personInfoStore.changeAge(event.target.value);
     }
 
     return(
@@ -54,4 +44,4 @@ export const PersonalInfo = () => {
         </fieldset>
         );
 
-}
+});
