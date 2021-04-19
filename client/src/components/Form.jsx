@@ -19,8 +19,8 @@ export const Form = observer(() => {
     }
 
     useEffect(() => {
-        console.log(`foods: ${foodStore.foods}, ${foodStore.foods.length}, age: ${foodStore.age}, group: ${foodStore.group}`);
-        if(foodStore.foods.length == 0 || foodStore.age === undefined || foodStore.group === ""){
+        console.log(`foods: ${JSON.stringify(foodStore.foods)}, ${foodStore.foods.length}, age: ${foodStore.age}, group: ${foodStore.group}`);
+        if(foodStore.foods.length === 0 || foodStore.age === undefined || foodStore.group === ""){
             isButtonDisabled(true);
         } else {
             isButtonDisabled(false);

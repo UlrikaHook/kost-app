@@ -14,11 +14,15 @@ export class FoodStore {
     }
 
     addFoodItem(item){
+        console.log(`inskcikad food item att lägga till: ${JSON.stringify(item)}`)
         this.foods = [...this.foods, item];
     }
 
     removeFoodItem(itemId){
-        this.foods = this.foods.filter(food => itemId !== food.id);
+        this.foods = this.foods.filter(food => {
+            console.log(`target id: ${itemId}, id i arrayen: ${food.id}`)
+            return itemId !== food.id
+        });
     }
 
     changeFoodItem(itemId, itemValue){

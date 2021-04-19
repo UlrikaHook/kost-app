@@ -1,6 +1,6 @@
 
 import AddIcon from "@material-ui/icons/Add";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import {FoodItem} from "./FoodItem";
 import {SearchBox} from "./SearchBox";
 import {observer} from "mobx-react";
@@ -19,20 +19,22 @@ export const Foods = observer(() => {
         setShowSearch(true);
     }
 
-    const deleteFoodItem = (e) => {
-        foodStore.removeFoodItem(e.target.id);
+    const deleteFoodItem = (id) => {
+        console.log(`id att ta bort: ${id}`)
+        foodStore.removeFoodItem(id);
     }
 
     const changeAmount = (e) => {
+        console.log(`id: ${e.target.id}, value: ${e.target.value}`)
         foodStore.changeFoodItem(e.target.id, e.target.value);
     }
 
     const foodComponents = () => {
-        return foodStore.foods.map((food, index) => {
+        return foodStore.foods.map((food) => {
             return(
                 <FoodItem
-                    key={`${index}`}
-                    id=""
+                    key={food.id}
+                    id={food.id}
                     name={food.name}
                     amount={food.amount}
                     deleteFoodItem={deleteFoodItem}
