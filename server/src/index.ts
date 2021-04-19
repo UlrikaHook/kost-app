@@ -1,3 +1,4 @@
+import {livsmedelController} from "./controllers/LivsmedelController";
 
 const express = require("express");
 const cors = require("cors");
@@ -17,6 +18,7 @@ const start = async () => {
     app.get("/", (req: Request, res: Response) => {
         res.json({"Works": "true"});
     })
+    app.get("/foods/:input", livsmedelController.byInput)
 
     app.listen(port, () => {
         console.log(`Server listening on port ${port}`);
