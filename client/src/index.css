@@ -147,12 +147,12 @@ button, input {
   margin: 0.5rem;
 }
 
-.delete-button, .add-button {
+.delete-button, .add-button, .cancel-button {
   border: none;
   padding: 0.5rem;
 }
 
-.delete-button:hover{
+.delete-button:hover, .cancel-button:hover{
   color: red;
 }
 

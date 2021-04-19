@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useStores} from "../hooks/useStores";
 import {observer} from "mobx-react";
 import { v4 as uuidv4 } from 'uuid';
+import CloseIcon from '@material-ui/icons/Close';
 
 export const SearchBox = observer(({hideSearchBox}) => {
-
-    // Hantera sök, lägg input i ett state. Använd search-store som kontinuerligt uppdaterar sökresultat.
 
     //Lägg till kryss-knapp om man vill stänga sök utan att lägga till något.
 
@@ -18,9 +17,7 @@ export const SearchBox = observer(({hideSearchBox}) => {
     }
 
     useEffect(() => {
-        //load result from db
         loadSearchResult().catch(e => console.log(e));
-
     }, [input]);
 
 
@@ -51,7 +48,10 @@ export const SearchBox = observer(({hideSearchBox}) => {
     return(
         <>
             <div className="flex-col-start-center search-box">
-                <input className="search-input fill-fifty" placeholder="Sök livsmedel..." onChange={changeInput} autoFocus/>
+                <div className="flex-row-center-center fill">
+                    <input className="search-input fill-fifty" placeholder="Sök livsmedel..." onChange={changeInput} autoFocus/>
+                    <CloseIcon className="icon cancel-button" onClick={hideSearchBox}/>
+                </div>
                 <div className="result-box flex-col-start-start fill-fifty">
                     {foodResults()}
                 </div>

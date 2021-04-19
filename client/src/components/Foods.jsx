@@ -20,12 +20,10 @@ export const Foods = observer(() => {
     }
 
     const deleteFoodItem = (id) => {
-        console.log(`id att ta bort: ${id}`)
         foodStore.removeFoodItem(id);
     }
 
     const changeAmount = (e) => {
-        console.log(`id: ${e.target.id}, value: ${e.target.value}`)
         foodStore.changeFoodItem(e.target.id, e.target.value);
     }
 

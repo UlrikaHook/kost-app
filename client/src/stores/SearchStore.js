@@ -10,12 +10,10 @@ export class SearchStore {
     }
 
     async getSearchResult(input) {
-        console.log(input)
         this.result = await client.get(`/foods/${input}?limit=20`);
-        console.log(JSON.stringify(this.result))
     }
 
-    async clearResult(){
+    clearResult(){
         this.result = [];
     }
 
