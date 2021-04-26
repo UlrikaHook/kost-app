@@ -11,9 +11,11 @@ export const Form = observer(() => {
 
     const [ buttonDisabled, isButtonDisabled ] = useState(true);
     const { foodStore } = useStores();
+    const { viewStore } = useStores();
 
     const sendData = async () => {
         await foodStore.sendData();
+        viewStore.setShowForm(false);
         //Redirecta till ny vy. Denna vy ska innehålla länk tillbaka till Register.
         //Ska inte gå att klicka på om foods, ålder eller grupp är oifylld.
     }
@@ -34,11 +36,11 @@ export const Form = observer(() => {
 
 
     return(
-        <div className="flex-col-start-start fill-eighty form">
+            <div className="flex-col-start-start form">
                 <Foods/>
                 <PersonalInfo/>
-            {button()}
-        </div>
-    );
+                {button()}
+            </div>
+      )
 
 });

@@ -6,21 +6,18 @@ import CloseIcon from '@material-ui/icons/Close';
 
 export const SearchBox = observer(({hideSearchBox}) => {
 
-    //Lägg till kryss-knapp om man vill stänga sök utan att lägga till något.
-
     const {searchStore} = useStores();
     const {foodStore} = useStores();
     const [input, setInput] = useState("");
 
-    const loadSearchResult = async() => {
-        await searchStore.getSearchResult(input);
-    }
-
     useEffect(() => {
-        loadSearchResult().catch(e => console.log(e));
-    }, [input]);
-
-
+        async function loadSearchResult() {
+            await searchStore.getSearchResult(input);
+        }
+        if(input.length > 1) {
+            loadSearchResult().catch(e => console.log(e));
+        }
+    }, [searchStore, input]);
 
     const changeInput = (event) => {
         setInput(event.target.value);
@@ -40,7 +37,7 @@ export const SearchBox = observer(({hideSearchBox}) => {
     const foodResults = () => {
         return (searchStore.result === undefined || searchStore.result.length === 0) ? null : searchStore.result.map(item => {
             return(
-                <div className="result-item" onClick={() => addFoodItem(item.namn)}>{item.namn}</div> //Lägg till key prop
+                <div key={item.namn} className="result-item" onClick={() => addFoodItem(item.namn)}>{item.namn}</div>
             )
         })
     }

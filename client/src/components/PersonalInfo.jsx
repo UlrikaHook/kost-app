@@ -7,11 +7,11 @@ export const PersonalInfo = observer(() => {
     const { foodStore } = useStores();
 
     const changeGroup = (event) => {
-        foodStore.changeGroup(event.target.value);
+        foodStore.setGroup(event.target.value);
     }
 
     const changeAge = (event) => {
-        foodStore.changeAge(event.target.value);
+        foodStore.setAge(event.target.value);
     }
 
     return(
@@ -23,10 +23,10 @@ export const PersonalInfo = observer(() => {
                         Målgrupp
                     </div>
                     <div className="fill-eighty" onChange={changeGroup}>
-                        <label>Man<input type="radio" name="group" value="male"/></label>
-                        <label>Kvinna<input type="radio" name="group" value="female"/></label>
-                        <label>Gravid<input type="radio" name="group" value="pregnant"/></label>
-                        <label>Ammande<input type="radio" name="group" value="breastfeeding"/></label>
+                        <label>Man<input type="radio" name="group" value="M"/></label>
+                        <label>Kvinna<input type="radio" name="group" value="K"/></label>
+                        <label>Gravid<input type="radio" name="group" value="gravida"/></label>
+                        <label>Ammande<input type="radio" name="group" value="ammande"/></label>
                     </div>
                 </div>
                 <div className="flex-row-start-start fill">
@@ -34,10 +34,10 @@ export const PersonalInfo = observer(() => {
                         Ålder
                     </div>
                     <div className="fill-eighty" onChange={changeAge}>
-                        <label>18-30 år<input type="radio" name="age" value="eighteen"/></label>
-                        <label>31-60 år<input type="radio" name="age" value="thirtyone"/></label>
-                        <label>61-74 år<input type="radio" name="age" value="sixtyone"/></label>
-                        <label>över 75 år<input type="radio" name="age" value="seventyfive"/></label>
+                        <label>18-30 år<input type="radio" name="age" value="18_30"/></label>
+                        <label>31-60 år<input type="radio" name="age" value="31_60"/></label>
+                        <label>61-74 år<input type="radio" name="age" value="61_74"/></label>
+                        <label>över 75 år<input type="radio" name="age" value="75"/></label>
                     </div>
                 </div>
             </div>
