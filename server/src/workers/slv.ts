@@ -38,8 +38,24 @@ const importData = async() => {
         console.log(`Sparar livsmedel ${livsmedel.namn}`)
 
         lm.Naringsvarden.Naringsvarde.forEach(async (varde) => {
-
-            const naringsamne = await Naringsamne.findOne(varde.Namn._text);
+            let namn;
+            switch(varde.Namn._text){
+                case "Energi (kcal)":
+                    namn = "Energi";
+                    break;
+                case "Summa fleromättade fettsyror":
+                    namn = "Fleromättat fett";
+                    break;
+                case "Summa enkelomättade fettsyror":
+                    namn = "Enkelomättat fett";
+                    break;
+                case "Summa mättade fettsyror":
+                    namn = "Mättat fett";
+                    break;
+                default:
+                    namn = varde.Namn._text;
+            }
+            const naringsamne = await Naringsamne.findOne(namn);
             if(naringsamne !== undefined){
                 const naringsvarde = {
                     varde: parseFloat(varde.Varde._text.replace(",", ".")),
