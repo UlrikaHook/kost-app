@@ -4,17 +4,25 @@ import client from "../client/ApiClient"
 export class SearchStore {
 
     result =[];
+
     constructor() {
         makeAutoObservable(this);
         this.client = client;
     }
 
+    setResult(result) {
+        this.result = result;
+    }
+
     async getSearchResult(input) {
-        this.result = await client.get(`/foods/${input}?limit=20`);
+        const response = await client.get(`/foods/${input}?limit=20`);
+        this.setResult(response);
     }
 
     clearResult(){
-        this.result = [];
+        this.setResult([]);
     }
+
+
 
 }

@@ -4,7 +4,7 @@ import client from "../client/ApiClient"
 export class FoodStore {
 
     foods = [];
-    age = undefined;
+    age = "";
     group = "";
     result = {};
 
@@ -13,34 +13,49 @@ export class FoodStore {
         this.client = client;
     }
 
-    addFoodItem(item){
-        this.foods = [...this.foods, item];
+    setFoods(foods){
+        this.foods = foods;
     }
 
-    removeFoodItem(itemId){
-        this.foods = this.foods.filter(food => {
-            return itemId !== food.id
-        });
-    }
-
-    changeFoodItem(itemId, itemValue){
-        this.foods = this.foods.map(food => {
-            if(itemId === food.id){
-                food.amount = itemValue;
-            }
-            return food;
-        })
-    }
-
-    changeAge(age){
+    setAge(age){
         this.age = age;
     }
 
-    changeGroup(group){
+    setGroup(group){
         this.group = group;
     }
 
+    setResult(result){
+        this.result = result;
+    }
+
+    addFoodItem(item){
+        this.setFoods([...this.foods, item]);
+    }
+
+    removeFoodItem(itemId){
+        const newFoods = this.foods.filter(food => {
+            return itemId !== food.id
+        });
+        this.setFoods(newFoods);
+    }
+
+    changeFoodItem(itemId, itemValue){
+        const newFoods = this.foods.map(food => {
+            console.log(`id i existerande array: ${food.id}, id från event: ${itemId}`)
+            if(itemId === food.id){
+                food.amount = parseInt(itemValue);
+                console.log("hittar rätt id")
+            }
+            console.log(JSON.stringify(food))
+            return food;
+        })
+        this.setFoods(newFoods);
+    }
+
     async sendData(){
-        this.result = await client.post("/feedback", {foods: this.foods, age: this.age, group: this.group})
+        const response = await client.post("/feedback", {foods: this.foods, age: this.age, group: this.group});
+        this.setResult(response);
+        console.log(JSON.stringify(this.result))
     }
 }
