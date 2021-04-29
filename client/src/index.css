@@ -15,6 +15,7 @@ body {
   width: 90%;
   margin-right: auto;
   margin-left: auto;
+  margin-bottom: 5%;
 }
 
 .view {
@@ -195,5 +196,18 @@ button:hover{
   font-weight: bold;
 }
 
+.column{
+  width: 30%;
+}
 
+.section-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 3rem;
+}
+
+.column-header {
+  color: mediumseagreen;
+  font-weight: bold;
+}
 

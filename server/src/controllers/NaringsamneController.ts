@@ -30,18 +30,21 @@ export const naringsamneController = {
             protein: 0,
             fat: 0
         }*/
-        let energy: {carbohydrate: { name: string, percent: any }, protein: { name: string, percent: any }, fat: { name: string, percent: any }}= {
+        let energy: {carbohydrate: { name: string, percent: any, recommended: string }, protein: { name: string, percent: any, recommended: string  }, fat: { name: string, percent: any, recommended: string  }}= {
             carbohydrate: {
                 name: "Kolhydrater",
-                percent: 0
+                percent: 0,
+                recommended: "45-60 E%"
             },
             protein: {
                 name: "Protein",
-                percent: 0
+                percent: 0,
+                recommended: "10-20 E%"
             },
             fat: {
                 name: "Fett",
-                percent: 0
+                percent: 0,
+                recommended: "25-40 E%"
             }
         }
 
