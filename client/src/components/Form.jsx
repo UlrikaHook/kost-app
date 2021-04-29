@@ -7,8 +7,6 @@ import {useStores} from "../hooks/useStores";
 
 export const Form = observer(() => {
 
-    //onaction för knapp att näringsberäkna
-
     const [ buttonDisabled, isButtonDisabled ] = useState(true);
     const { foodStore } = useStores();
     const { viewStore } = useStores();
@@ -16,13 +14,15 @@ export const Form = observer(() => {
     const sendData = async () => {
         await foodStore.sendData();
         viewStore.setShowForm(false);
-        //Redirecta till ny vy. Denna vy ska innehålla länk tillbaka till Register.
-        //Ska inte gå att klicka på om foods, ålder eller grupp är oifylld.
     }
 
     useEffect(() => {
-        if(foodStore.foods.length === 0 || foodStore.age === undefined || foodStore.group === ""){
+        if(foodStore.foods.length === 0 || foodStore.age === "" || foodStore.group === ""){
             isButtonDisabled(true);
+
+        } else if(foodStore.foods.length !== 0) {
+            const amountEmpty = foodStore.foods.some(food => {return food.amount === undefined});
+            isButtonDisabled(amountEmpty);
         } else {
             isButtonDisabled(false);
         }
