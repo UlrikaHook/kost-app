@@ -1,51 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useStores} from "../hooks/useStores";
 import {observer} from "mobx-react";
+import {Nutrients} from "../components/Nutrients";
+import {Advice} from "../components/Advice";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const Feedback = observer(() => {
 
     const { foodStore } = useStores();
     const { viewStore } = useStores();
 
-    const macroNutrients = () => {
-        return foodStore.result.nutrients.map(nutrient => {
-            if(nutrient.name === "Energi" || nutrient.name === "Kolhydrater" || nutrient.name === "Protein" || nutrient.name === "Fett"){
-                return(
-                    <div className="flex-row-between-start fill">
-                        <div className="column">{nutrient.name}</div>
-                        <div className="column">{nutrient.intake} {nutrient.unit}</div>
-                        <div className="column">{nutrient.percent} %</div>
-                    </div>
-                )
-            }
-            return null;
-        })
-    }
-
-    const microNutrients = () => {
-        return foodStore.result.nutrients.map(nutrient => {
-            if(nutrient.name !== "Energi" && nutrient.name !== "Protein" && nutrient.name !== "Kolhydrater" && nutrient.name !== "Fett"){
-                return(
-                    <div className="flex-row-between-start fill">
-                        <div className="column">{nutrient.name}</div>
-                        <div className="column">{nutrient.intake} {nutrient.unit}</div>
-                        <div className="column">{nutrient.percent} %</div>
-                    </div>
-                )
-            }
-            return null;
-        })
-    }
-
-    const header = () => {
-        return(
-            <div className="flex-row-between-start fill column-header">
-                <div className="column">Näringsämne</div>
-                <div className="column">Ditt intag</div>
-                <div className="column">Andel av Rekommenderat Dagligt Intag</div>
-            </div>
-        )
-    }
+    const [showAdvice, setShowAdvice] = useState(false);
+    const [showNutrients, setShowNutrients] = useState(false);
 
     const energyHeader = () => {
         return(
@@ -85,19 +52,53 @@ export const Feedback = observer(() => {
         viewStore.setShowForm(true);
     }
 
+    const advice = () => {
+        return showAdvice
+            ? <Advice/>
+            : null
+    }
+
+    const nutrients = () => {
+        return showNutrients
+        ? <div className="fill flex-col-start-center">
+                <Nutrients
+                    nutrients={foodStore.result.otherNutrients}
+                    title="Energi och Salt"
+                    header={["", "Ditt Intag", "Andel av uppskattat behov"]}/>
+                <Nutrients
+                    nutrients={foodStore.result.macroNutrients}
+                    title="Energigivande näringsämnen"
+                    header={["Näringsämne", "Ditt Intag", "Andel av rekommenderat dagligt intag"]}/>
+                <Nutrients
+                    nutrients={foodStore.result.fatQuality}
+                    title="Fettkvalitet"
+                    header={["Fettsyra", "Ditt Intag", "Andel av rekommenderat dagligt intag"]}/>
+                <div className ="section-header">Energiprocent</div>
+                {energyHeader()}
+                {energyPercent()}
+                <Nutrients
+                    nutrients={foodStore.result.microNutrients}
+                    title="Övriga näringsämnen"
+                    header={["Näringsämne", "Ditt Intag", "Andel av rekommenderat dagligt intag"]}/>
+            </div>
+        : null;
+    }
+
     return (
         <div className="flex-col-start-center form">
-            {registeredMeal()}
-            <div className="section-header">Energigivande näringsämnen</div>
-            {header()}
-            {macroNutrients()}
-            <div className ="section-header">Energiprocent</div>
-            {energyHeader()}
-            {energyPercent()}
-            <div className="section-header">Övriga näringsämnen</div>
-            {header()}
-            {microNutrients()}
-            <button onClick={redirect}>Ny registrering</button>
+                {registeredMeal()}
+
+            <div className=" fill flex-row-between-center advice">
+                <div className="section-header">Näringsinnehåll</div>
+                {showNutrients ? <ExpandLessIcon onClick={()=>setShowNutrients(!showNutrients)}/> : <ExpandMoreIcon onClick={()=>setShowNutrients(!showNutrients)}/> }
+            </div>
+            {nutrients()}
+            <div className=" fill flex-row-between-center advice">
+                <div className="section-header">Vad kan förbättras?</div>
+                {showAdvice ? <ExpandLessIcon onClick={()=>setShowAdvice(!showAdvice)}/> : <ExpandMoreIcon onClick={()=>setShowAdvice(!showAdvice)}/> }
+            </div>
+            {advice()}
+            <button className="margin" onClick={redirect}>Ny registrering</button>
         </div>)
 
 

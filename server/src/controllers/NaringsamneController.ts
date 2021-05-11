@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {Livsmedel} from "../entities/Livsmedel";
 import {Naringsamne} from "../entities/Naringsamne";
+import {nutrientsText} from "../helpers/nutrientTexts";
 
 export const naringsamneController = {
     async summary(req: Request, res: Response) {
@@ -95,12 +96,80 @@ export const naringsamneController = {
             nutrient.intake = nutrient.intake.toFixed(1);
         })
 
+        const macro = ["Kolhydrater", "Protein", "Fett"];
+        const fat = ["Fleromättat fett", "Enkelomättat fett", "Mättat fett"];
+        const other = ["Energi", "Salt"];
+
+        let macroNutrients: {name: string, intake: any, unit: string, percent: any}[] = [];
+        let microNutrients: {name: string, intake: any, unit: string, percent: any}[] = [];
+        let otherNutrients: {name: string, intake: any, unit: string, percent: any}[] = [];
+        let fatQuality:  {name: string, intake: any, unit: string, percent: any}[] = [];
+
+        nutrientsResult.forEach(nutrient => {
+            if(macro.includes(nutrient.name)){
+                macroNutrients.push(nutrient);
+            } else if(other.includes(nutrient.name)){
+                otherNutrients.push(nutrient);
+            } else if(fat.includes(nutrient.name)) {
+                fatQuality.push(nutrient);
+            } else {
+                microNutrients.push(nutrient);
+            }
+        })
+
         energy.fat.percent = ((energy.fat.percent/totalEnergy)*100).toFixed(1);
         energy.carbohydrate.percent = ((energy.carbohydrate.percent/totalEnergy)*100).toFixed(1);
         energy.protein.percent = ((energy.protein.percent/totalEnergy)*100).toFixed(1);
 
-        const response = {nutrients: nutrientsResult, energyPercent: energy};
+        //const response = {nutrients: nutrientsResult, energyPercent: energy};
         //console.log(`4. Responsen ${JSON.stringify(response)}`)
+        let advice: {name: string, link: string, text: string}[] = [];
+        otherNutrients.forEach(nutrient => {
+            if(nutrient.name === "Salt" && parseFloat(nutrient.percent) > 100) {
+                advice.push({name: nutrient.name, link: nutrientsText.Salt.link, text: nutrientsText.Salt.text });
+            }
+        })
+
+        macroNutrients.forEach(nutrient =>{
+            if(nutrient.name === "Protein" && nutrient.percent < 90){
+                advice.push({name: nutrient.name, link: nutrientsText.Protein.link, text: nutrientsText.Protein.text });
+            }
+        })
+
+        fatQuality.forEach(nutrient => {
+            switch (nutrient.name){
+                case "Mättat fett":
+                    if(parseFloat(nutrient.percent) > 110){
+                        advice.push({name: nutrient.name, link: nutrientsText.Mättatfett.link, text: nutrientsText.Mättatfett.text });
+                    }
+                    break;
+                case "Enkelomättat fett":
+                case "Fleromättat fett":
+                    const shortName = nutrient.name.replace(" ", "");
+                    console.log(shortName)
+                    if(parseFloat(nutrient.percent) < 90) {
+                        advice.push({
+                            name: nutrient.name,
+                            link: nutrientsText[shortName].link,
+                            text: nutrientsText[shortName].text
+                        });
+                    }
+                    break;
+                default:
+                    break;
+            }
+        })
+
+        microNutrients.forEach(nutrient => {
+            if(parseFloat(nutrient.percent) < 80) {
+                const shortName = nutrient.name.replace(" ", "");
+                advice.push({name: nutrient.name, link: nutrientsText[shortName].link, text: nutrientsText[shortName].text });
+            }
+        })
+
+
+
+        const response = {macroNutrients, fatQuality, microNutrients, otherNutrients, energyPercent: energy, advice};
 
         res.json(response);
 

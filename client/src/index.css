@@ -211,3 +211,21 @@ button:hover{
   font-weight: bold;
 }
 
+.advice-item {
+  padding: 1rem;
+}
+
+.advice-title {
+  font-weight: bold;
+}
+
+.advice {
+  border-bottom: solid mediumseagreen 0.2rem;
+  color: mediumseagreen;
+  font-weight: bold;
+}
+
+.margin {
+  margin: 3rem;
+}
+

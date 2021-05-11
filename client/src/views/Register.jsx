@@ -9,7 +9,7 @@ export const Register = observer(() => {
     const { viewStore } = useStores();
 
     const titleText = () => {
-        return viewStore.showForm ? "Registrera måltid" : "Måltidens näringsinnehåll"
+        return viewStore.showForm ? "Registrera måltid" : "Återkoppling"
     }
 
     const containerComponent = () => {
