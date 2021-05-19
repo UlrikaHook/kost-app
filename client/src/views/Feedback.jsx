@@ -14,7 +14,7 @@ export const Feedback = observer(() => {
     const [showAdvice, setShowAdvice] = useState(false);
     const [showNutrients, setShowNutrients] = useState(false);
 
-    const energyHeader = () => {
+    /*const energyHeader = () => {
         return(
             <div className="flex-row-between-start fill column-header">
                 <div className="column">Näringsämne</div>
@@ -35,7 +35,7 @@ export const Feedback = observer(() => {
                 </div>
             )
         })
-    }
+    }*/
 
     const registeredMeal = () => {
         return foodStore.foods.map(food => {
@@ -57,6 +57,9 @@ export const Feedback = observer(() => {
             ? <Advice/>
             : null
     }
+    /*<div className ="section-header">Energiprocent</div>
+    {energyHeader()}
+    {energyPercent()}*/
 
     const nutrients = () => {
         return showNutrients
@@ -73,9 +76,6 @@ export const Feedback = observer(() => {
                     nutrients={foodStore.result.fatQuality}
                     title="Fettkvalitet"
                     header={["Fettsyra", "Ditt Intag", "Andel av rekommenderat dagligt intag"]}/>
-                <div className ="section-header">Energiprocent</div>
-                {energyHeader()}
-                {energyPercent()}
                 <Nutrients
                     nutrients={foodStore.result.microNutrients}
                     title="Övriga näringsämnen"
